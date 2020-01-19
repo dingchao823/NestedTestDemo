@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.alibaba.android.vlayout.LayoutHelper
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper
+import com.example.nestedtestdemo.adapter.manager.MyLinearLayoutManager
 import com.example.nestedtestdemo.utils.DimenUtils
 
 class SimpleOneScrollAdapter : BaseDelegateAdapter<SimpleOneScrollAdapter.ViewHolder, String>(){
@@ -22,7 +23,7 @@ class SimpleOneScrollAdapter : BaseDelegateAdapter<SimpleOneScrollAdapter.ViewHo
 
         holder.recyclerView.let {
             if (it.adapter == null){
-                it.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                it.layoutManager = MyLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 it.adapter = adapter
             }
         }

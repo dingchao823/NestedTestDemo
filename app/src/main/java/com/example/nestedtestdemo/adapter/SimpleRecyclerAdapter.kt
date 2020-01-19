@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nestedtestdemo.R
 
@@ -29,6 +30,9 @@ class SimpleRecyclerAdapter(var context : Context?) : RecyclerView.Adapter<Simpl
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.textView.text = position.toString()
+        holder.textView.setOnClickListener {
+            Toast.makeText(context, "点击了$position", Toast.LENGTH_SHORT).show()
+        }
 
     }
 

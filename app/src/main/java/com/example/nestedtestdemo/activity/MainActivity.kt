@@ -5,10 +5,7 @@ import android.os.Bundle
 import com.alibaba.android.vlayout.DelegateAdapter
 import com.alibaba.android.vlayout.VirtualLayoutManager
 import com.example.nestedtestdemo.*
-import com.example.nestedtestdemo.adapter.SimpleDividerAdapter
-import com.example.nestedtestdemo.adapter.SimpleImageAdapter
-import com.example.nestedtestdemo.adapter.SimpleOneScrollAdapter
-import com.example.nestedtestdemo.adapter.SimpleViewPagerAdapter
+import com.example.nestedtestdemo.adapter.*
 import com.example.nestedtestdemo.utils.ReflectUtil
 import com.example.nestedtestdemo.utils.ScreenUtil
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,6 +22,9 @@ class MainActivity : AppCompatActivity() {
             ScreenUtil.getStatusBarHeight()
         outer_recyclerview.layoutManager = VirtualLayoutManager(this)
         outer_recyclerview.adapter = adapter
+
+        adapter.addAdapter(SimpleBannerAdapter(this))
+
         for (index in 1..8){
             adapter.addAdapter(SimpleImageAdapter())
             adapter.addAdapter(
@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         }
+
         adapter.addAdapter(SimpleOneScrollAdapter())
         adapter.addAdapter(
             SimpleDividerAdapter(
