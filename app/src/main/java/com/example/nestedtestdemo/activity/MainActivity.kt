@@ -1,14 +1,19 @@
 package com.example.nestedtestdemo.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.alibaba.android.vlayout.DelegateAdapter
 import com.alibaba.android.vlayout.VirtualLayoutManager
-import com.example.nestedtestdemo.*
+import com.example.nestedtestdemo.R
 import com.example.nestedtestdemo.adapter.*
 import com.example.nestedtestdemo.utils.ReflectUtil
 import com.example.nestedtestdemo.utils.ScreenUtil
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,8 +52,6 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-//        Constant.viewFling = outer_recyclerview.javaClass.getField("mViewFlinger")
         ReflectUtil.reflect(outer_recyclerview)
-
     }
 }

@@ -32,7 +32,7 @@ class NestedOuterRecyclerView : RecyclerView, NestedScrollingParent2 {
     private val childLocation = IntArray(2)
     private var downX : Float = 0f
     private var downY : Float = 0f
-    private var isDebug = false
+    private var isDebug = true
 
     private var flingUtils = FlingUtils(context)
     private var tabAnimationUtil =
@@ -41,8 +41,7 @@ class NestedOuterRecyclerView : RecyclerView, NestedScrollingParent2 {
     /** 吸顶事件回调 **/
     private val listenerList = ArrayList<NestedListener?>()
 
-    private var nestedState =
-        NESTED_NOT_STICKY
+    private var nestedState = NESTED_NOT_STICKY
     private var isIntercept = true
 
     constructor(context: Context) : super(context)
@@ -78,6 +77,23 @@ class NestedOuterRecyclerView : RecyclerView, NestedScrollingParent2 {
                     }
                 }
                 printLog("ACTION_MOVE")
+            }
+            MotionEvent.ACTION_UP -> {
+                val dx: Float? = x?.minus(downX)
+                val dy: Float? = y?.minus(downY)
+                val orientation = getOrientation(dx ?: 0f, dy ?: 0f)
+                if (orientation.equals("r") || orientation.equals("l")){
+                    dx?.let {
+                        // 距离较小，当作click事件来处理
+                        if (abs(dx) <= 10) {
+                            Log.e("dc", "itemTouchListener -> onInterceptTouchEvent click !")
+                            return false
+                        }else{
+                            return true
+                        }
+                    }
+                }
+                printLog("ACTION_UP")
             }
         }
 

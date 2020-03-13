@@ -3,6 +3,7 @@ package com.example.nestedtestdemo.adapter
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.vlayout.LayoutHelper
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper
@@ -36,6 +37,9 @@ class SimpleImageAdapter(var isSticky : Boolean = false, var resId : Int = R.mip
         singleImage.layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DimenUtils.dipTopx( context, 300f))
         singleImage.scaleType = ImageView.ScaleType.FIT_XY
         singleImage.setImageResource(resId)
+        singleImage.setOnClickListener{
+            Toast.makeText(context, "点击了图片", Toast.LENGTH_SHORT).show()
+        }
         singleImage.setBackgroundResource(R.color.colorPrimary)
         return ViewHolder(singleImage)
     }
