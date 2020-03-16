@@ -23,7 +23,7 @@ class NestedInnerRecyclerView : RecyclerView {
     private var dx : Float? = 0f
     private var dy : Float? = 0f
     private var orientation: String? = ""
-    private var isDebug = true
+    private var isDebug = false
 
     constructor(context: Context) : super(context){}
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)

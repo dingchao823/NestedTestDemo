@@ -77,21 +77,11 @@ class SimpleRecyclerViewFragment : Fragment(){
         val adapter = DelegateAdapter(virtualLayoutManager)
         val manager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         innerRecyclerView?.layoutManager = manager
-        innerRecyclerView?.adapter =
-            StaggerGridAdapter(index)
+        innerRecyclerView?.adapter = StaggerGridAdapter(index)
         innerRecyclerView?.itemAnimator = null
-        innerRecyclerView?.addItemDecoration(
-            StaggeredDividerItemDecoration(
-                context!!,
-                5
-            )
-        )
+        innerRecyclerView?.addItemDecoration(StaggeredDividerItemDecoration(context!!, 5))
 
-        adapter.addAdapter(
-            StaggerGridAdapter(
-                index
-            )
-        )
+        adapter.addAdapter(StaggerGridAdapter(index))
 
         Log.e("dc", "【SimpleRecyclerViewFragment ${hashCode()}-${index}】 create view")
 

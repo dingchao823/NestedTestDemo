@@ -17,7 +17,7 @@ import kotlin.math.abs
  */
 class FlingUtils(val context : Context) {
 
-    private var isDebug = true
+    private var isDebug = false
     private val sQuinticInterpolator = Interpolator { t ->
         var time = t
         time -= 1.0f

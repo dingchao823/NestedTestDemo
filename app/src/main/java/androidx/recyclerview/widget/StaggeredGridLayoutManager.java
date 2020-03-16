@@ -1909,6 +1909,9 @@ public class StaggeredGridLayoutManager extends RecyclerView.LayoutManager imple
             if (mPrimaryOrientation.getDecoratedEnd(child) <= line
                     && mPrimaryOrientation.getTransformedEndWithDecoration(child) <= line) {
                 LayoutParams lp = (LayoutParams) child.getLayoutParams();
+                if (lp == null || lp.mSpan == null || lp.mSpan.mViews == null){
+                    return;
+                }
                 // Don't recycle the last View in a span not to lose span's start/end lines
                 if (lp.mFullSpan) {
                     for (int j = 0; j < mSpanCount; j++) {
@@ -3302,5 +3305,9 @@ public class StaggeredGridLayoutManager extends RecyclerView.LayoutManager imple
                 mOffset = mPrimaryOrientation.getStartAfterPadding() + addedDistance;
             }
         }
+    }
+
+    private void print(String content){
+        Log.e("dc", content);
     }
 }

@@ -1,11 +1,7 @@
 package com.example.nestedtestdemo.activity
 
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.alibaba.android.vlayout.DelegateAdapter
 import com.alibaba.android.vlayout.VirtualLayoutManager
 import com.example.nestedtestdemo.R
@@ -17,41 +13,45 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private var fatherAdapter : DelegateAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val virtualLayoutManager = VirtualLayoutManager(this)
-        val adapter = DelegateAdapter(virtualLayoutManager)
-        outer_recyclerview.viewPagerStickyHeight =
-            ScreenUtil.getStatusBarHeight()
+        fatherAdapter = DelegateAdapter(virtualLayoutManager)
+
+        // 设置 fling 相关设置
+        ReflectUtil.reflect(outer_recyclerview)
+
+        initRecycler()
+
+        refresh.setOnClickListener {
+            fatherAdapter?.clear()
+            initRecycler()
+        }
+    }
+
+    private fun initRecycler() {
+        outer_recyclerview.viewPagerStickyHeight = ScreenUtil.getStatusBarHeight()
         outer_recyclerview.layoutManager = VirtualLayoutManager(this)
-        outer_recyclerview.adapter = adapter
+        outer_recyclerview.adapter = fatherAdapter
 
-        adapter.addAdapter(SimpleBannerAdapter(this))
+        // 添加轮播
+        fatherAdapter?.addAdapter(SimpleBannerAdapter(this))
 
+        // 添加图片
         for (index in 1..8){
-            adapter.addAdapter(SimpleImageAdapter())
-            adapter.addAdapter(
-                SimpleDividerAdapter(
-                    10
-                )
-            )
+            fatherAdapter?.addAdapter(SimpleImageAdapter())
+            fatherAdapter?.addAdapter(SimpleDividerAdapter(16))
         }
 
-        adapter.addAdapter(SimpleOneScrollAdapter())
-        adapter.addAdapter(
-            SimpleDividerAdapter(
-                10
-            )
-        )
-        adapter.addAdapter(
-            SimpleViewPagerAdapter(
-                supportFragmentManager,
-                this
-            )
-        )
+        // 添加一行可滑动
+        fatherAdapter?.addAdapter(SimpleOneScrollAdapter())
+        fatherAdapter?.addAdapter(SimpleDividerAdapter(16))
 
-        ReflectUtil.reflect(outer_recyclerview)
+        // 添加 viewPager
+        fatherAdapter?.addAdapter(SimpleViewPagerAdapter(supportFragmentManager, this))
     }
 }

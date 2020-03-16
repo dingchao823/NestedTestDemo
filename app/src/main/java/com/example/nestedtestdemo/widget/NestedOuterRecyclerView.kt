@@ -32,7 +32,7 @@ class NestedOuterRecyclerView : RecyclerView, NestedScrollingParent2 {
     private val childLocation = IntArray(2)
     private var downX : Float = 0f
     private var downY : Float = 0f
-    private var isDebug = true
+    private var isDebug = false
 
     private var flingUtils = FlingUtils(context)
     private var tabAnimationUtil =
@@ -43,6 +43,7 @@ class NestedOuterRecyclerView : RecyclerView, NestedScrollingParent2 {
 
     private var nestedState = NESTED_NOT_STICKY
     private var isIntercept = true
+    private var canNotScrollUp = false
 
     constructor(context: Context) : super(context)
 
@@ -127,8 +128,6 @@ class NestedOuterRecyclerView : RecyclerView, NestedScrollingParent2 {
         mNestedScrollingTarget = target
         mNestedScrollingChildView = child
         printLog("onNestedScrollAccepted")
-//        printLog("onNestedScrollAccepted >>>> mNestedScrollingTarget = $mNestedScrollingTarget")
-//        printLog("onNestedScrollAccepted>>>> mNestedScrollingChildView = $mNestedScrollingChildView")
         if (target is NestedInnerRecyclerView){
             flingUtils.attach(innerRecyclerView = target)
             tabAnimationUtil.attch(viewPager = Constant.viewPager)
@@ -168,6 +167,11 @@ class NestedOuterRecyclerView : RecyclerView, NestedScrollingParent2 {
                         printLog("onNestedPreScroll 》》消耗向上【dy=$dy】")
                         notifyListener(NESTED_NOT_STICKY)
                     }else{
+                        if (canNotScrollUp && !target.canScrollVertically(1)){
+                            consumed[0] = 0
+                            consumed[1] = dy
+                            printLog("onNestedPreScroll 》》不允许向上滑动了")
+                        }
                         // 如果吸顶了，用户无法通过滑动 tab 切来滑动，整个父布局要固定死，直到用户滑动商品
                         // 瀑布流到指定位置，才可以下拉；在恰当的时候要去解开外布局的滑动
                         printLog("onNestedPreScroll 》》交由【子类】消耗向上【dy=$dy】")
@@ -220,9 +224,9 @@ class NestedOuterRecyclerView : RecyclerView, NestedScrollingParent2 {
 
     override fun onNestedFling(target: View, velocityX: Float, velocityY: Float, consumed: Boolean): Boolean {
         printLog("onNestedFling 》》[velocityX=$velocityX][velocityY=$velocityY][consumed=$consumed]")
-        Log.e("dc", "Inner -------------------------------------")
-        Log.e("dc", "onNestedFling 》》[velocityX=$velocityX][velocityY=$velocityY][consumed=$consumed]")
-        Log.e("dc", "Inner -------------------------------------")
+        printLog("Inner -------------------------------------")
+        printLog("onNestedFling 》》[velocityX=$velocityX][velocityY=$velocityY][consumed=$consumed]")
+        printLog("Inner -------------------------------------")
         mNestedScrollingChildView?.let {
             if (target !is NestedInnerRecyclerView) {
                 return@let

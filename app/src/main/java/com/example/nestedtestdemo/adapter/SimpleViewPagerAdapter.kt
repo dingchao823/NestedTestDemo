@@ -43,7 +43,6 @@ class SimpleViewPagerAdapter(var fm : FragmentManager,
         return ViewHolder(view!!)
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
 
     }
@@ -53,22 +52,16 @@ class SimpleViewPagerAdapter(var fm : FragmentManager,
     }
 
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+
         val viewPager : ViewPager = itemView.findViewById(R.id.view_Pager)
         val tabLayout : RecyclerTabLayout = itemView.findViewById(R.id.tab_layout)
 
         init {
             viewPager.offscreenPageLimit = 1
-            viewPager.adapter =
-                SimpleFragmentAdapter(fm)
+            viewPager.adapter = SimpleFragmentAdapter(fm)
 
             tabLayout.isNestedScrollingEnabled = true
-            tabLayout.setUpWithAdapter(
-                SimpleTabAdapter(
-                    activity,
-                    viewPager,
-                    newDataSource
-                )
-            )
+            tabLayout.setUpWithAdapter(SimpleTabAdapter(activity, viewPager, newDataSource))
 
             Constant.tabLayout = tabLayout
             Constant.viewPager = viewPager

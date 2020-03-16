@@ -18,12 +18,13 @@ import kotlinx.android.extensions.LayoutContainer
  *
  * 瀑布流适配器测试优化，有多行，有单行
  */
-class StaggerGridAdapter(val index : Int) : BaseDelegateAdapter<StaggerGridAdapter.ViewHolder, String>() {
+class StaggerGridAdapter(val index: Int) :
+    BaseDelegateAdapter<StaggerGridAdapter.ViewHolder, String>() {
 
     override fun getViewType(position: Int): Int {
-        if (position == itemCount - 1){
+        if (position == itemCount - 1) {
             return 2
-        }else {
+        } else {
             return 1
         }
     }
@@ -40,27 +41,34 @@ class StaggerGridAdapter(val index : Int) : BaseDelegateAdapter<StaggerGridAdapt
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        when(viewType){
+        when (viewType) {
             1 -> {
-                return ViewHolder(getRootView(parent,
-                    R.layout.recycler_item_stagger_grid
-                )!!)
+                return ViewHolder(
+                    getRootView(
+                        parent,
+                        R.layout.recycler_item_stagger_grid
+                    )!!
+                )
             }
             2 -> {
-                val view = getRootView(parent,
+                val view = getRootView(
+                    parent,
                     R.layout.recycler_item_stagger_grid
                 )!!
                 view.layoutParams?.let {
-                    if (it is StaggeredGridLayoutManager.LayoutParams){
+                    if (it is StaggeredGridLayoutManager.LayoutParams) {
                         it.isFullSpan = true
                     }
                 }
                 return ViewHolder(view)
             }
         }
-        return ViewHolder(getRootView(parent,
-            R.layout.recycler_item_stagger_grid
-        )!!)
+        return ViewHolder(
+            getRootView(
+                parent,
+                R.layout.recycler_item_stagger_grid
+            )!!
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -68,10 +76,11 @@ class StaggerGridAdapter(val index : Int) : BaseDelegateAdapter<StaggerGridAdapt
     }
 
     override fun getItemCount(): Int {
-        return 20
+        return 100
     }
 
-    inner class ViewHolder(override var containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    inner class ViewHolder(override var containerView: View) :
+        RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         val ad = containerView.findViewById<TextView>(R.id.iv_ad)
 
@@ -85,7 +94,7 @@ class StaggerGridAdapter(val index : Int) : BaseDelegateAdapter<StaggerGridAdapt
 
         private fun debugCode(position: Int) {
             ad.text = "$position"
-            when(position % 6){
+            when (position % 6) {
                 0 -> {
                     setImageHeight(600)
                 }
@@ -107,7 +116,7 @@ class StaggerGridAdapter(val index : Int) : BaseDelegateAdapter<StaggerGridAdapt
             }
         }
 
-        private fun setImageHeight(heightPx : Int){
+        private fun setImageHeight(heightPx: Int) {
             val params = ad.layoutParams as ConstraintLayout.LayoutParams
             params.height = heightPx
             ad.layoutParams = params
